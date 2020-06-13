@@ -6,3 +6,7 @@
 /dataSources.local.xml
 # Editor-based HTTP Client requests
 /httpRequests/
+#Database info
+D:\Python-workspace\isthereanyclothes-crawler\sql_connector.py
+#pyc folder
+D:\Python-workspace\isthereanyclothes-crawler\__pycache__

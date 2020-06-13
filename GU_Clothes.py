@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 from lxml import etree
 from selenium.webdriver.chrome.options import Options
 import datetime
+from sql_connector import sql_connector
 
 user_agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.50 Safari/537.36'
 #
@@ -11,7 +12,7 @@ chrome_options = Options()
 chrome_options.add_argument('headless')
 chrome_options.add_argument(f'user-agent={user_agent}')
 
-prod_url = 'https://www.gu-global.com/tw/store/goods/323179'
+prod_url = 'https://www.gu-global.com/tw/store/goods/32222200001'
 driverPath = "D:\Python-workspace\SeleniumChromedriver\chromedriver.exe"
 driver = webdriver.Chrome(driverPath, options=chrome_options)  # Chrome
 driver.get(prod_url)
@@ -92,4 +93,11 @@ print(prod_isSet)
 print(prod_islimitedTime)
 print(prod_ispriceDown)
 print(prod_ismodifyShow)
-print(prod_llimitedPriceDate)
+if 'prod_llimitedPriceDate' in globals():
+    print(prod_llimitedPriceDate)
+else:
+    prod_llimitedPriceDate = ''
+
+sql_connector(prod_sex, prod_category, prod_name, prod_price, prod_number, prod_about, prod_material, prod_url,
+              prod_main_image_url, prod_size_url, prod_isnewGood, prod_isonlineOnly, prod_isSet, prod_islimitedTime,
+              prod_ispriceDown, prod_ismodifyShow, prod_llimitedPriceDate)
