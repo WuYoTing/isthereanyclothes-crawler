@@ -12,7 +12,7 @@ chrome_options = Options()
 chrome_options.add_argument('headless')
 chrome_options.add_argument(f'user-agent={user_agent}')
 
-prod_url = 'https://www.gu-global.com/tw/store/goods/32222200001'
+prod_url = 'https://www.gu-global.com/tw/store/goods/321889'
 driverPath = "D:\Python-workspace\SeleniumChromedriver\chromedriver.exe"
 driver = webdriver.Chrome(driverPath, options=chrome_options)  # Chrome
 driver.get(prod_url)
@@ -22,8 +22,15 @@ driver.close()
 page = BeautifulSoup(page_html, 'lxml')
 prod_sex_category = page.select('#content #prodInfo .pathdetail')[0].text
 prod_sex = prod_sex_category.split(' ⁄ ')[0].strip()
+if prod_sex == "MEN":
+    prod_sex = 1
+elif prod_sex == "WOMEN":
+    prod_sex = 2
+else:
+    prod_sex = 0
 prod_category = prod_sex_category.split(' ⁄ ')[1].strip()
 prod_name = page.select('#content #prodInfo #goodsNmArea')[0].text
+#未處理千元小數點問題
 prod_price = page.select('#content #prodInfo #basic #price')[0].text.replace('NT$', '')
 prod_number = page.select('#content #prodInfo #basic .number')[0].text.replace('商品編號', '')
 prod_about = page.select('#content #secondary #prodDetail .content .about')[0].text
@@ -46,7 +53,7 @@ prod_isonlineOnly = page.findAll("li", {"id": "onlineOnlyIcon"})[0].get('style')
 prod_isSet = page.findAll("li", {"id": "Set"})[0].get('style')
 prod_islimitedTime = page.findAll("li", {"id": "limitedTime"})[0].get('style')
 prod_ispriceDown = page.findAll("li", {"id": "priceDown"})[0].get('style')
-prod_ismodifyShow = page.findAll("li", {"id": "modifyShow"})[0].get('style')
+prod_canmodify = page.findAll("li", {"id": "modifyShow"})[0].get('style')
 if prod_isnewGood == "display: none;":
     prod_isnewGood = 0
 else:
@@ -67,15 +74,15 @@ else:
         0].text.replace(
         '止期間限定特價中', '')
     prod_limitedPriceMonthDay = prod_limitedPriceText.replace('/', '-')
-    prod_llimitedPriceDate = str(now.year) + '-' + prod_limitedPriceMonthDay
+    prod_limitedPriceDate = str(now.year) + '-' + prod_limitedPriceMonthDay
 if prod_ispriceDown == "display: none;":
     prod_ispriceDown = 0
 else:
     prod_ispriceDown = 1
-if prod_ismodifyShow == "display: none;":
-    prod_ismodifyShow = 0
+if prod_canmodify == "display: none;":
+    prod_canmodify = 0
 else:
-    prod_ismodifyShow = 1
+    prod_canmodify = 1
 
 print(prod_sex)
 print(prod_category)
@@ -92,12 +99,12 @@ print(prod_isonlineOnly)
 print(prod_isSet)
 print(prod_islimitedTime)
 print(prod_ispriceDown)
-print(prod_ismodifyShow)
-if 'prod_llimitedPriceDate' in globals():
-    print(prod_llimitedPriceDate)
+print(prod_canmodify)
+if 'prod_limitedPriceDate' in globals():
+    print(prod_limitedPriceDate)
 else:
-    prod_llimitedPriceDate = ''
+    prod_limitedPriceDate = '1995-03-07'
 
-sql_connector(prod_sex, prod_category, prod_name, prod_price, prod_number, prod_about, prod_material, prod_url,
+sql_connector(prod_sex, prod_category, prod_name, int(prod_price), prod_number, prod_about, prod_material, prod_url,
               prod_main_image_url, prod_size_url, prod_isnewGood, prod_isonlineOnly, prod_isSet, prod_islimitedTime,
-              prod_ispriceDown, prod_ismodifyShow, prod_llimitedPriceDate)
+              prod_ispriceDown, prod_canmodify, prod_limitedPriceDate)
