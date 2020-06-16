@@ -1,7 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-from lxml import etree
-from GU_Clothes import getProdInfo
+from gu.guProdInfo import getProdInfo
 
 
 def getProdList(category_url):

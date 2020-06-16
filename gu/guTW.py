@@ -1,7 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-from lxml import etree
-from GU_List import getProdList
+from gu.guProdList import getProdList
 
 res = requests.get('https://www.gu-global.com/tw/store')
 BS = BeautifulSoup(res.text, "lxml")
