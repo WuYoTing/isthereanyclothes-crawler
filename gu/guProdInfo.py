@@ -1,17 +1,23 @@
 from selenium import webdriver
 from bs4 import BeautifulSoup
 from lxml import etree
+import random
+import sys
 from selenium.webdriver.chrome.options import Options
 import datetime
+
+sys.path.append("..")
+from userAgent import USER_AGENT_LIST
 from sql_connector import sql_connector
+
 
 def getProdInfo(prod_url):
     now = datetime.datetime.now()
-    user_agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.50 Safari/537.36'
+    user_agent = random.choice(USER_AGENT_LIST)
     chrome_options = Options()
     chrome_options.add_argument('headless')
     chrome_options.add_argument(f'user-agent={user_agent}')
-    driverPath = "D:\Python-workspace\SeleniumChromedriver\chromedriver.exe"
+    driverPath = "D:\Python-workspace\chromedriver.exe"
     driver = webdriver.Chrome(driverPath, options=chrome_options)  # Chrome
     driver.get(prod_url)
     page_html = driver.page_source
@@ -34,12 +40,16 @@ def getProdInfo(prod_url):
     prod_material = page.select('#content #secondary #prodDetail .content .spec dd')[0].text
     prod_main_image_url = page.select('#content #secondary #prodMainImg #prodImgDefault')[0].img['src'].replace(
         'model', '')
-    prod_size_url = page.select('#content #prodSelectAttribute #prodSelectSize #selectSizeDetail .linkMore a')[0].get(
-        'href')
-    prod_size_url = prod_size_url.replace("javascript:void(window.open('", "")
-    prod_size_url = prod_size_url.replace(
-        "', '', 'width=600, height=700, status=no, toolbar=no, menubar=no, location=no, resizable=yes, "
-        "scrollbars=yes'));", "")
+    try:
+        prod_size_url = page.select('#content #prodSelectAttribute #prodSelectSize #selectSizeDetail .linkMore a')[
+            0].get(
+            'href')
+        prod_size_url = prod_size_url.replace("javascript:void(window.open('", "")
+        prod_size_url = prod_size_url.replace(
+            "', '', 'width=600, height=700, status=no, toolbar=no, menubar=no, location=no, resizable=yes, "
+            "scrollbars=yes'));", "")
+    except:
+        prod_size_url = ""
     prod_isnewGood = page.findAll("li", {"id": "newGood"})[0].get('style')
     prod_isonlineOnly = page.findAll("li", {"id": "onlineOnlyIcon"})[0].get('style')
     prod_isSet = page.findAll("li", {"id": "Set"})[0].get('style')
@@ -75,6 +85,7 @@ def getProdInfo(prod_url):
         prod_canmodify = 0
     else:
         prod_canmodify = 1
+    prod_get_time = datetime.today().strftime('%Y-%m-%d')
     print(prod_sex)
     print(prod_category)
     print(prod_name)
@@ -97,4 +108,4 @@ def getProdInfo(prod_url):
         prod_limitedPriceDate = '1995-03-07'
     sql_connector(prod_sex, prod_category, prod_name, int(prod_price), prod_number, prod_about, prod_material, prod_url,
                   prod_main_image_url, prod_size_url, prod_isnewGood, prod_isonlineOnly, prod_isSet, prod_islimitedTime,
-                  prod_ispriceDown, prod_canmodify, prod_limitedPriceDate)
+                  prod_ispriceDown, prod_canmodify, prod_limitedPriceDate,prod_get_time)
