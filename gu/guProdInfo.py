@@ -14,11 +14,15 @@ from sql_connector import sql_connector
 def getProdInfo(prod_url):
     now = datetime.datetime.now()
     user_agent = random.choice(USER_AGENT_LIST)
+    print('')
+    print(user_agent)
     chrome_options = Options()
     chrome_options.add_argument('headless')
+    chrome_options.add_argument("window-size=1024,768")
     chrome_options.add_argument(f'user-agent={user_agent}')
-    driverPath = "D:\Python-workspace\chromedriver.exe"
+    driverPath = "D:\Python-workspace\isthereanyclothes-crawler\chromedriver.exe"
     driver = webdriver.Chrome(driverPath, options=chrome_options)  # Chrome
+    print(prod_url)
     driver.get(prod_url)
     page_html = driver.page_source
     driver.close()
@@ -85,7 +89,9 @@ def getProdInfo(prod_url):
         prod_canmodify = 0
     else:
         prod_canmodify = 1
-    prod_get_time = datetime.today().strftime('%Y-%m-%d')
+
+    # 這裡抓本地時間做string
+    prod_get_time = str(now.year) + '-' + str(now.month) + '-' + str(now.day)
     print(prod_sex)
     print(prod_category)
     print(prod_name)
@@ -102,10 +108,11 @@ def getProdInfo(prod_url):
     print(prod_islimitedTime)
     print(prod_ispriceDown)
     print(prod_canmodify)
+    print(prod_get_time)
     if 'prod_limitedPriceDate' in globals():
         print(prod_limitedPriceDate)
     else:
         prod_limitedPriceDate = '1995-03-07'
     sql_connector(prod_sex, prod_category, prod_name, int(prod_price), prod_number, prod_about, prod_material, prod_url,
                   prod_main_image_url, prod_size_url, prod_isnewGood, prod_isonlineOnly, prod_isSet, prod_islimitedTime,
-                  prod_ispriceDown, prod_canmodify, prod_limitedPriceDate,prod_get_time)
+                  prod_ispriceDown, prod_canmodify, prod_limitedPriceDate, prod_get_time)
