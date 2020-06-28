@@ -3,6 +3,8 @@ from bs4 import BeautifulSoup
 from lxml import etree
 import random
 import sys
+
+from selenium.common.exceptions import TimeoutException, InvalidSessionIdException
 from selenium.webdriver.chrome.options import Options
 import datetime
 
@@ -23,8 +25,18 @@ def getProdInfo(prod_url):
     driverPath = "D:\Python-workspace\isthereanyclothes-crawler\chromedriver.exe"
     driver = webdriver.Chrome(driverPath, options=chrome_options)  # Chrome
     print(prod_url)
-    driver.get(prod_url)
-    page_html = driver.page_source
+    try:
+        driver.get(prod_url)
+    except TimeoutException as Timeout:
+        print("Exception has been thrown. " + str(Timeout))
+        driver.close()
+        getProdInfo(prod_url)
+    try:
+        page_html = driver.page_source
+    except InvalidSessionIdException as InvalidSessionId:
+        print("Exception has been thrown. " + str(InvalidSessionId))
+        driver.close()
+        getProdInfo(prod_url)
     driver.close()
     page = BeautifulSoup(page_html, 'lxml')
     prod_sex_category = page.select('#content #prodInfo .pathdetail')[0].text
@@ -89,7 +101,6 @@ def getProdInfo(prod_url):
         prod_canmodify = 0
     else:
         prod_canmodify = 1
-
     # 這裡抓本地時間做string
     prod_get_time = str(now.year) + '-' + str(now.month) + '-' + str(now.day)
     print(prod_sex)
