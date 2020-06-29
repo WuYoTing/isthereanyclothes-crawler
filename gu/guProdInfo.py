@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 from lxml import etree
 import random
 import sys
+from webdriver_manager.chrome import ChromeDriverManager
 
 from selenium.common.exceptions import TimeoutException, InvalidSessionIdException
 from selenium.webdriver.chrome.options import Options
@@ -22,8 +23,8 @@ def getProdInfo(prod_url):
     chrome_options.add_argument('headless')
     chrome_options.add_argument("window-size=1024,768")
     chrome_options.add_argument(f'user-agent={user_agent}')
-    driverPath = "D:\Python-workspace\isthereanyclothes-crawler\chromedriver.exe"
-    driver = webdriver.Chrome(driverPath, options=chrome_options)  # Chrome
+    driverPath = "E:\python_workspace\chromedriver.exe"
+    driver = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options)  # Chrome
     print(prod_url)
     try:
         driver.get(prod_url)
