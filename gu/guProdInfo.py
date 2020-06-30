@@ -5,7 +5,7 @@ import random
 import sys
 from webdriver_manager.chrome import ChromeDriverManager
 
-from selenium.common.exceptions import TimeoutException, InvalidSessionIdException
+from selenium.common.exceptions import TimeoutException, InvalidSessionIdException, SessionNotCreatedException
 from selenium.webdriver.chrome.options import Options
 import datetime
 
@@ -15,6 +15,7 @@ from sql_connector import sql_connector
 
 
 def getProdInfo(prod_url):
+    prodUrl = prod_url
     now = datetime.datetime.now()
     user_agent = random.choice(USER_AGENT_LIST)
     print('')
@@ -24,20 +25,22 @@ def getProdInfo(prod_url):
     chrome_options.add_argument("window-size=1024,768")
     chrome_options.add_argument(f'user-agent={user_agent}')
     driverPath = "E:\python_workspace\chromedriver.exe"
-    driver = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options)  # Chrome
-    print(prod_url)
     try:
-        driver.get(prod_url)
+        driver = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options)  # Chrome
+    except SessionNotCreatedException as SessionNotCreated:
+        print("Exception has been thrown. " + str(SessionNotCreated))
+        getProdInfo(prodUrl)
+    print(prodUrl)
+    try:
+        driver.get(prodUrl)
     except TimeoutException as Timeout:
         print("Exception has been thrown. " + str(Timeout))
-        driver.close()
-        getProdInfo(prod_url)
+        getProdInfo(prodUrl)
     try:
         page_html = driver.page_source
     except InvalidSessionIdException as InvalidSessionId:
         print("Exception has been thrown. " + str(InvalidSessionId))
-        driver.close()
-        getProdInfo(prod_url)
+        getProdInfo(prodUrl)
     driver.close()
     page = BeautifulSoup(page_html, 'lxml')
     prod_sex_category = page.select('#content #prodInfo .pathdetail')[0].text
@@ -111,7 +114,7 @@ def getProdInfo(prod_url):
     print(prod_number)
     print(prod_about)
     print(prod_material)
-    print(prod_url)
+    print(prodUrl)
     print(prod_main_image_url)
     print(prod_size_url)
     print(prod_isnewGood)
