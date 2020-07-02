@@ -23,24 +23,25 @@ def getProdInfo(prod_url):
     chrome_options = Options()
     chrome_options.add_argument('headless')
     chrome_options.add_argument("window-size=1024,768")
+    chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument(f'user-agent={user_agent}')
     driverPath = "E:\python_workspace\chromedriver.exe"
     try:
         driver = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options)  # Chrome
     except SessionNotCreatedException as SessionNotCreated:
         print("Exception has been thrown. " + str(SessionNotCreated))
-        getProdInfo(prodUrl)
+        driver = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options)  # Chrome
     print(prodUrl)
     try:
         driver.get(prodUrl)
     except TimeoutException as Timeout:
         print("Exception has been thrown. " + str(Timeout))
-        getProdInfo(prodUrl)
+        driver.get(prodUrl)
     try:
         page_html = driver.page_source
     except InvalidSessionIdException as InvalidSessionId:
         print("Exception has been thrown. " + str(InvalidSessionId))
-        getProdInfo(prodUrl)
+        page_html = driver.page_source
     driver.close()
     page = BeautifulSoup(page_html, 'lxml')
     prod_sex_category = page.select('#content #prodInfo .pathdetail')[0].text
