@@ -28,20 +28,22 @@ def getProdInfo(prod_url):
     driverPath = "E:\python_workspace\chromedriver.exe"
     try:
         driver = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options)  # Chrome
+        driver.set_page_load_timeout(200)
+        driver.set_script_timeout(200)
     except SessionNotCreatedException as SessionNotCreated:
-        print("Exception has been thrown. " + str(SessionNotCreated))
-        driver = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options)  # Chrome
+        print("Exception has been thrown. " + str(SessionNotCreated) + "when deal with" + prod_url)
+        raise
     print(prodUrl)
     try:
         driver.get(prodUrl)
     except TimeoutException as Timeout:
-        print("Exception has been thrown. " + str(Timeout))
-        driver.get(prodUrl)
+        print("Exception has been thrown. " + str(Timeout) + "when deal with" + prod_url)
+        raise
     try:
         page_html = driver.page_source
     except InvalidSessionIdException as InvalidSessionId:
-        print("Exception has been thrown. " + str(InvalidSessionId))
-        page_html = driver.page_source
+        print("Exception has been thrown. " + str(InvalidSessionId) + "when deal with" + prod_url)
+        raise
     driver.close()
     page = BeautifulSoup(page_html, 'lxml')
     prod_sex_category = page.select('#content #prodInfo .pathdetail')[0].text
