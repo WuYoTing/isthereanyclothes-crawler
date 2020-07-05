@@ -2,7 +2,7 @@ import smtplib
 from email.mime.text import MIMEText
 
 
-def maillog(gmailUser, gmailPassword, gmailTitle, gmailContent, recipient):
+def maillog(gmailTitle, gmailContent, recipient):
     gmail_user = gmailUser
     gmail_password = gmailPassword  # your gmail password
     msg = MIMEText(gmailContent)
@@ -14,4 +14,4 @@ def maillog(gmailUser, gmailPassword, gmailTitle, gmailContent, recipient):
     server.login(gmail_user, gmail_password)
     server.send_message(msg)
     server.quit()
-    print('Email sent!')
+    print(gmailTitle + 'sent!')

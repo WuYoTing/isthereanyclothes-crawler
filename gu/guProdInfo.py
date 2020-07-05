@@ -25,7 +25,6 @@ def getProdInfo(prod_url):
     chrome_options.add_argument("window-size=1024,768")
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument(f'user-agent={user_agent}')
-    driverPath = "E:\python_workspace\chromedriver.exe"
     try:
         driver = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options)  # Chrome
         driver.set_page_load_timeout(200)
