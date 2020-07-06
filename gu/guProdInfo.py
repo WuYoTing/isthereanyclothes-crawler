@@ -12,39 +12,15 @@ import datetime
 sys.path.append("..")
 from userAgent import USER_AGENT_LIST
 from sql_connector import sql_connector
-
+from getSeleniumPage import getSeleniumPage
 
 def getProdInfo(prod_url):
     prodUrl = prod_url
     now = datetime.datetime.now()
-    user_agent = random.choice(USER_AGENT_LIST)
-    print('')
-    print(user_agent)
-    chrome_options = Options()
-    chrome_options.add_argument('headless')
-    chrome_options.add_argument("window-size=1024,768")
-    chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument(f'user-agent={user_agent}')
     try:
-        driver = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options)  # Chrome
-        driver.set_page_load_timeout(200)
-        driver.set_script_timeout(200)
-    except SessionNotCreatedException as SessionNotCreated:
-        print("Exception has been thrown. " + str(SessionNotCreated) + "when deal with" + prod_url)
+        page = getSeleniumPage(prod_url)
+    except Exception as ec:
         raise
-    print(prodUrl)
-    try:
-        driver.get(prodUrl)
-    except TimeoutException as Timeout:
-        print("Exception has been thrown. " + str(Timeout) + "when deal with" + prod_url)
-        raise
-    try:
-        page_html = driver.page_source
-    except InvalidSessionIdException as InvalidSessionId:
-        print("Exception has been thrown. " + str(InvalidSessionId) + "when deal with" + prod_url)
-        raise
-    driver.close()
-    page = BeautifulSoup(page_html, 'lxml')
     prod_sex_category = page.select('#content #prodInfo .pathdetail')[0].text
     prod_sex = prod_sex_category.split(' ⁄ ')[0].strip()
     if prod_sex == "MEN":

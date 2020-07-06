@@ -23,6 +23,7 @@ def getSeleniumPage(url):
     chrome_options.add_argument("--disable-images")
     chrome_options.add_argument('blink-settings=imagesEnabled=false')
     chrome_options.add_argument(f'user-agent={user_agent}')
+    chrome_options.page_load_strategy = 'EAGER'
     try:
         driver = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options)  # Chrome
         driver.set_page_load_timeout(200)
