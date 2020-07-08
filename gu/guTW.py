@@ -42,6 +42,11 @@ prod_url_end_time = time.time()
 totalAmount = len(prod_url_set)
 category_time = prod_url_end_time - start_time
 prodAmount = len(prod_url_set)
+print('爬取所有類別網址花了', round(category_time, 2), 'seconds')
+print('爬取一個類別平均資訊花了', round((category_time / categoryAmount), 2), 'seconds')
+print('共', categoryAmount, '個類別')
+print('共', prodAmount, '個產品')
+'''
 driver = createDriverInstance()
 for prod_url in prod_url_set.copy():
     print(prod_url)
@@ -57,11 +62,9 @@ prod_time = round(prod_info_end_time - prod_url_end_time, 2)
 m, s = divmod(prod_time, 60)
 h, m = divmod(m, 60)
 prod_info_total = "%02d:%02d:%02d" % (h, m, s)
-print('爬取所有類別網址花了', round(category_time, 2), 'seconds')
-print('爬取一個類別平均資訊花了', round((category_time / categoryAmount), 2), 'seconds')
-print('共', categoryAmount, '個類別')
-print('共', prodAmount, '個產品')
+
 print('爬取所有產品資訊花了', prod_info_total, 'seconds')
 print('爬取一個產品平均資訊花了', (prod_info_total / totalAmount), 'seconds')
 maillog('Crawler Success', 'Crawler_GU done successful in' + str(prod_info_total) + '秒',
         'hakosaki314@gmail.com')
+'''

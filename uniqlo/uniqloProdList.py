@@ -4,10 +4,10 @@ sys.path.append("..")
 from getSeleniumPage import getSeleniumPage
 
 
-def getProdList(prod_list_url):
+def getProdList(prod_list_url,driver):
     prod_url_set = set()
     try:
-        page = getSeleniumPage(prod_list_url)
+        page = getSeleniumPage(prod_list_url,driver)
     except Exception as ec:
         raise
     for category in page.select('#airism section dl dd a'):
