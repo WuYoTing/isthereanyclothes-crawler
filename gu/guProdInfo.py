@@ -14,11 +14,12 @@ from userAgent import USER_AGENT_LIST
 from sql_connector import sql_connector
 from getSeleniumPage import getSeleniumPage
 
-def getProdInfo(prod_url):
+
+def getProdInfo(prod_url, driver):
     prodUrl = prod_url
     now = datetime.datetime.now()
     try:
-        page = getSeleniumPage(prod_url)
+        page = getSeleniumPage(prod_url, driver)
     except Exception as ec:
         raise
     prod_sex_category = page.select('#content #prodInfo .pathdetail')[0].text
