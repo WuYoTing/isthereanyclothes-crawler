@@ -5,9 +5,8 @@ import traceback
 import sys
 from bs4 import BeautifulSoup
 from exceptionFormat import exceptionFormat
-from uniqlo.uniqloProdList import getProdList
-import time
 from getSeleniumPage import createDriverInstance
+from uniqlo.uniqloProdInfo import getProdInfo
 
 sys.path.append("..")
 from userAgent import USER_AGENT_LIST
@@ -16,7 +15,7 @@ USER_AGENT = random.choice(USER_AGENT_LIST)
 headers = {'user-agent': USER_AGENT, "accept-language": "zh-TW,zh;q=0.9,en-US;q=0.8,en;q=0.7"}
 
 # 男生
-manActual = 0
+manProdUrlSet = set()
 res = requests.get('https://www.uniqlo.com/tw/store/search?qclv1=001', headers=headers)
 BS = BeautifulSoup(res.text, "lxml")
 manProdAmount = int(BS.select('#content .blkPaginationTop tr th')[0].text.replace('搜尋結果：', '').replace('件', ''))
@@ -28,9 +27,9 @@ for page in range(manProdPage):
     for category in BS.select('#blkMainItemList .unit .info .name a'):
         category_url = category['href']
         if 'https://www.uniqlo.com/tw/store/goods/' in category_url:
-            manActual += 1
+            manProdUrlSet.add(category_url)
 # 女生
-womanActual = 0
+womanProdUrlSet = set()
 res = requests.get('https://www.uniqlo.com/tw/store/search?qclv1=002', headers=headers)
 BS = BeautifulSoup(res.text, "lxml")
 womanProdAmount = int(BS.select('#content .blkPaginationTop tr th')[0].text.replace('搜尋結果：', '').replace('件', ''))
@@ -42,9 +41,26 @@ for page in range(womanProdPage):
     for category in BS.select('#blkMainItemList .unit .info .name a'):
         category_url = category['href']
         if 'https://www.uniqlo.com/tw/store/goods/' in category_url:
-            womanActual += 1
+            womanProdUrlSet.add(category_url)
 
-print('爬到的男生產品共:' + str(manActual))
-print('爬到的女生產品共:' + str(womanActual))
+driver = createDriverInstance()
+for prod_url in manProdUrlSet.copy():
+    try:
+        getProdInfo(prod_url, driver)
+    except Exception as ec:
+        exceptionFormat(ec, prod_url)
+    else:
+        manProdUrlSet.remove(prod_url)
+for prod_url in womanProdUrlSet.copy():
+    try:
+        getProdInfo(prod_url, driver)
+    except Exception as ec:
+        exceptionFormat(ec, prod_url)
+    else:
+        womanProdUrlSet.remove(prod_url)
+        
+driver.close()
+print('爬到的男生產品共:' + str(len(manProdUrlSet)))
+print('爬到的女生產品共:' + str(len(womanProdUrlSet)))
 print('男生共:' + str(manProdAmount) + '個產品 ' + str(manProdPage) + '頁')
 print('女生共:' + str(womanProdAmount) + '個產品 ' + str(womanProdPage) + '頁')

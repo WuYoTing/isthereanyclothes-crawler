@@ -1,22 +1,12 @@
-from selenium import webdriver
-from bs4 import BeautifulSoup
-from lxml import etree
-import random
 import sys
-from webdriver_manager.chrome import ChromeDriverManager
-
-from selenium.common.exceptions import TimeoutException, InvalidSessionIdException, SessionNotCreatedException
-from selenium.webdriver.chrome.options import Options
 import datetime
 
 sys.path.append("..")
-from userAgent import USER_AGENT_LIST
 from sql_connector import sql_connector
 from getSeleniumPage import getSeleniumPage
 
 
 def getProdInfo(prod_url, driver):
-    prodUrl = prod_url
     now = datetime.datetime.now()
     try:
         page = getSeleniumPage(prod_url, driver)
@@ -93,7 +83,7 @@ def getProdInfo(prod_url, driver):
     print(prod_number)
     print(prod_about)
     print(prod_material)
-    print(prodUrl)
+    print(prod_url)
     print(prod_main_image_url)
     print(prod_size_url)
     print(prod_isnewGood)
@@ -109,4 +99,4 @@ def getProdInfo(prod_url, driver):
         prod_limitedPriceDate = '1995-03-07'
     sql_connector(prod_sex, prod_category, prod_name, int(prod_price), prod_number, prod_about, prod_material, prod_url,
                   prod_main_image_url, prod_size_url, prod_isnewGood, prod_isonlineOnly, prod_isSet, prod_islimitedTime,
-                  prod_ispriceDown, prod_canmodify, prod_limitedPriceDate, prod_get_time)
+                  prod_ispriceDown, prod_canmodify, prod_limitedPriceDate, prod_get_time,'gu_clothes')
