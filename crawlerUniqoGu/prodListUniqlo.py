@@ -43,14 +43,14 @@ def getUniqloProd(driver):
                 womanProdUrlSet.add(category_url)
     for prod_url in manProdUrlSet.copy():
         try:
-            getProdInfo(prod_url, driver)
+            getProdInfo(prod_url, driver,'uniqlo_clothes')
         except Exception as ec:
             exceptionFormat(ec, prod_url)
         else:
             manProdUrlSet.remove(prod_url)
     for prod_url in womanProdUrlSet.copy():
         try:
-            getProdInfo(prod_url, driver)
+            getProdInfo(prod_url, driver,'uniqlo_clothes')
         except Exception as ec:
             exceptionFormat(ec, prod_url)
         else:

@@ -9,7 +9,6 @@ from crawlerUniqoGu.prodInfoGet import getProdInfo
 sys.path.append("..")
 from userAgent import USER_AGENT_LIST
 
-
 def getGuProd(driver):
     USER_AGENT = random.choice(USER_AGENT_LIST)
     headers = {'user-agent': USER_AGENT, "accept-language": "zh-TW,zh;q=0.9,en-US;q=0.8,en;q=0.7"}
@@ -52,7 +51,7 @@ def getGuProd(driver):
             manProdUrlSet.remove(prod_url)
     for prod_url in womanProdUrlSet.copy():
         try:
-            getProdInfo(prod_url, driver)
+            getProdInfo(prod_url, driver,'gu_clothes')
         except Exception as ec:
             exceptionFormat(ec, prod_url)
         else:

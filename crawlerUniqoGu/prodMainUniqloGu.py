@@ -3,7 +3,8 @@ from crawlerUniqoGu.prodListGu import getGuProd
 from crawlerUniqoGu.prodListUniqlo import getUniqloProd
 
 driver = createDriverInstance()
-#Gu
+# Gu
 getGuProd(driver)
-#Uniqlo
+# Uniqlo
 getUniqloProd(driver)
+driver.close()
