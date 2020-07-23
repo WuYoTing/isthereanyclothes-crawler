@@ -25,14 +25,12 @@ for category in BS.select('#navHeader .gnav_list .gnav_category #gnav_women li a
     if 'https://www.uniqlo.com/tw/store/feature/women' in category_url:
         if 'https://www.uniqlo.com/tw/store/feature/women/featured' not in category_url and \
                 'https://www.uniqlo.com/tw/store/feature/women/special-size' not in category_url:
-            print(category.text + ' :' + category_url)
             prod_url_list_set.add(category_url)
 for category in BS.select('#navHeader .gnav_list .gnav_category #gnav_men li a'):
     category_url = category['href']
     if 'https://www.uniqlo.com/tw/store/feature/men' in category_url:
         if 'https://www.uniqlo.com/tw/store/feature/men/featured' not in category_url and \
                 'https://www.uniqlo.com/tw/store/feature/men/special-size' not in category_url:
-            print(category.text + ' :' + category_url)
             prod_url_list_set.add(category_url)
 start_time = time.time()
 categoryAmount = len(prod_url_list_set)
@@ -45,6 +43,7 @@ for prod_list_url in prod_url_list_set.copy():
         exceptionFormat(ec, prod_list_url)
     else:
         totalProdListAmout = totalProdListAmout + 1
+        print('爬   ' + prod_list_url + ' 底下產品中: ' + str(len(tmp_prod_url_set))+' 個產品')
         prod_url_set = prod_url_set.union(tmp_prod_url_set)
         prod_url_list_set.remove(prod_list_url)
 end_time = time.time()

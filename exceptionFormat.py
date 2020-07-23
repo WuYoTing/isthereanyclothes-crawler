@@ -3,7 +3,7 @@ import traceback
 from mailLog import maillog
 
 def exceptionFormat(e,url):
-    print("Exception has been thrown. " + str(e) + "when deal with" + url)
+    print("Exception has been thrown. " + str(e) + "when deal with " + url)
     error_class = e.__class__.__name__  # 取得錯誤類型
     detail = e.args[0]  # 取得詳細內容
     cl, exc, tb = sys.exc_info()  # 取得Call Stack

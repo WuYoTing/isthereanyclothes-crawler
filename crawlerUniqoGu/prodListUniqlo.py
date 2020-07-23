@@ -9,7 +9,8 @@ from crawlerUniqoGu.prodInfoGet import getProdInfo
 sys.path.append("..")
 from userAgent import USER_AGENT_LIST
 
-def getUniqloProd(driver):
+
+def getUniqloProd(driver, userName, password):
     USER_AGENT = random.choice(USER_AGENT_LIST)
     headers = {'user-agent': USER_AGENT, "accept-language": "zh-TW,zh;q=0.9,en-US;q=0.8,en;q=0.7"}
     # 男生
@@ -42,15 +43,17 @@ def getUniqloProd(driver):
             if 'https://www.uniqlo.com/tw/store/goods/' in category_url:
                 womanProdUrlSet.add(category_url)
     for prod_url in manProdUrlSet.copy():
+        print(str(len(manProdUrlSet)) + ' items left for man in uniqlo')
         try:
-            getProdInfo(prod_url, driver,'uniqlo_clothes')
+            getProdInfo(prod_url, driver, 'uniqlo_clothes', userName, password)
         except Exception as ec:
             exceptionFormat(ec, prod_url)
         else:
             manProdUrlSet.remove(prod_url)
     for prod_url in womanProdUrlSet.copy():
+        print(str(len(womanProdUrlSet)) + ' items left for woman in uniqlo')
         try:
-            getProdInfo(prod_url, driver,'uniqlo_clothes')
+            getProdInfo(prod_url, driver, 'uniqlo_clothes', userName, password)
         except Exception as ec:
             exceptionFormat(ec, prod_url)
         else:

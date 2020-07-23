@@ -1,3 +1,4 @@
 sql_connector.py
 __pycache__/
 chromedriver.exe
+mailLog.py

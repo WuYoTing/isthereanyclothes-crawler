@@ -6,7 +6,7 @@ from sql_connector import sql_connector
 from getSeleniumPage import getSeleniumPage
 
 
-def getProdInfo(prod_url,driver,tableName):
+def getProdInfo(prod_url, driver, tableName, userName, password):
     now = datetime.datetime.now()
     try:
         page = getSeleniumPage(prod_url, driver)
@@ -76,6 +76,9 @@ def getProdInfo(prod_url,driver,tableName):
         prod_canmodify = 1
     # 這裡抓本地時間做string
     prod_get_time = str(now.year) + '-' + str(now.month) + '-' + str(now.day)
+    if 'prod_limitedPriceDate' not in globals():
+        prod_limitedPriceDate = '1995-03-07'
+    '''
     print(prod_sex)
     print(prod_category)
     print(prod_name)
@@ -93,10 +96,8 @@ def getProdInfo(prod_url,driver,tableName):
     print(prod_ispriceDown)
     print(prod_canmodify)
     print(prod_get_time)
-    if 'prod_limitedPriceDate' in globals():
-        print(prod_limitedPriceDate)
-    else:
-        prod_limitedPriceDate = '1995-03-07'
+    print(prod_limitedPriceDate)
+    '''
     sql_connector(prod_sex, prod_category, prod_name, int(prod_price), prod_number, prod_about, prod_material, prod_url,
                   prod_main_image_url, prod_size_url, prod_isnewGood, prod_isonlineOnly, prod_isSet, prod_islimitedTime,
-                  prod_ispriceDown, prod_canmodify, prod_limitedPriceDate, prod_get_time,tableName)
+                  prod_ispriceDown, prod_canmodify, prod_limitedPriceDate, prod_get_time, tableName, userName, password)
