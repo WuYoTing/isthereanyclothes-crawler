@@ -28,7 +28,7 @@ def getProdInfo(prod_url, driver, tableName, userName, password):
     prod_about = page.select('#content #secondary #prodDetail .content .about')[0].text
     prod_material = page.select('#content #secondary #prodDetail .content .spec dd')[0].text
     prod_main_image_url = page.select('#content #secondary #prodMainImg #prodImgDefault')[0].img['src'].replace(
-        'model', '')
+        'model', '').replace('_.jpg','.jpg')
     try:
         prod_size_url = page.select('#content #prodSelectAttribute #prodSelectSize #selectSizeDetail .linkMore a')[
             0].get(
