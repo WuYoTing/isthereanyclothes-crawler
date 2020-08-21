@@ -77,7 +77,7 @@ def getProdInfo(prod_url, driver, tableName, userName, password):
     # 這裡抓本地時間做string
     prod_get_time = str(now.year) + '-' + str(now.month) + '-' + str(now.day)
     if 'prod_limitedPriceDate' not in globals():
-        prod_limitedPriceDate = '1995-03-07'
+        prod_limitedPriceDate = None
     '''
     print(prod_sex)
     print(prod_category)
