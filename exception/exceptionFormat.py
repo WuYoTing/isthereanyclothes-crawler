@@ -1,8 +1,9 @@
 import sys
 import traceback
-from mailLog import maillog
+from mail.mailLog import maillog
 
-def exceptionFormat(e,url):
+
+def exceptionFormat(e, url):
     print("Exception has been thrown. " + str(e) + "when deal with " + url)
     error_class = e.__class__.__name__  # 取得錯誤類型
     detail = e.args[0]  # 取得詳細內容
@@ -12,4 +13,4 @@ def exceptionFormat(e,url):
     lineNum = lastCallStack[1]  # 取得發生的行號
     funcName = lastCallStack[2]  # 取得發生的函數名稱
     errMsg = "File \"{}\", line {}, in {}: [{}] {}".format(fileName, lineNum, funcName, error_class, detail)
-    maillog('Crawler Exception', errMsg + ' Exception Url:' + url,'hakosaki314@gmail.com')
+    maillog('Crawler Exception', errMsg + ' Exception Url:' + url, 'hakosaki314@gmail.com')
