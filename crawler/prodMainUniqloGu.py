@@ -5,6 +5,7 @@ from mail.mailLog import maillog
 from datetime import date
 import time
 
+
 def prodMainUniqloGu(dbUserName, dbPassword):
     today_date = str(date.today())
     driver = createDriverInstance()
@@ -30,8 +31,8 @@ def prodMainUniqloGu(dbUserName, dbPassword):
     h, m = divmod(m, 60)
     uniqlo_prod_info_total = "%02d:%02d:%02d" % (h, m, s)
     # email msg
-    mail_msg = 'GU 爬蟲使用時間 : ' + gu_prod_info_total + ' 秒 <br> ' \
-               + 'uniqlo 爬蟲使用時間 : ' + str(uniqlo_prod_info_total) + ' 秒 <br>'
+    mail_msg = 'GU 爬蟲使用時間 : ' + gu_prod_info_total + ' 秒  ' \
+               + 'uniqlo 爬蟲使用時間 : ' + str(uniqlo_prod_info_total) + ' 秒 '
 
     maillog(today_date + ' 爬蟲完畢', mail_msg,
             'hakosaki314@gmail.com')

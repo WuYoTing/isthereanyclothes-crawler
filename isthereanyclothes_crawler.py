@@ -3,7 +3,7 @@ import platform
 
 osName = platform.system();
 print('os system : ' + osName)
-#database-info
+# database-info
 if osName == 'Linux':
     databaseInfo = open("/isthereanyclothes/database-info.txt", "r")
 elif osName == 'Windows':
