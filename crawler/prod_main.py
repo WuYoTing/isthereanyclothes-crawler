@@ -33,4 +33,4 @@ def prod_main(db_user_name, db_password):
     # email msg
     mail_msg = 'GU 爬蟲使用時間 : ' + gu_prod_info_total + ' 秒  ' \
                + 'uniqlo 爬蟲使用時間 : ' + str(uniqlo_prod_info_total) + ' 秒 '
-    mail_log(today_date + ' 爬蟲完畢', mail_msg, )
+    mail_log(today_date + ' 爬蟲完畢', mail_msg )
