@@ -21,14 +21,13 @@ def mail_log(mail_title, mail_content):
     mail_obj['From'] = mail_user
     mail_obj['To'] = recipient
     try:
-        server = smtplib.SMTP('smtp.gmail.com')
-        server.connect('smtp.gmail.com', 587)
-        server.ehlo()
-        server.starttls()
-        server.login(mail_user, mail_password)
-        server.send_message(mail_obj)
-        server.quit()
-        print(mail_title + 'sent!')
+        smtp = smtplib.SMTP('smtp.gmail.com')
+        smtp.ehlo()
+        smtp.starttls()
+        smtp.login(mail_user, mail_password)
+        smtp.send_message(mail_obj)
+        smtp.quit()
+        print(mail_title + ' sent! ')
     except smtplib.SMTPException:
         pass
     except smtplib.socket.error:
