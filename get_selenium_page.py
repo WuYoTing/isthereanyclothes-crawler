@@ -1,17 +1,13 @@
 from selenium import webdriver
 from bs4 import BeautifulSoup
 import random
-import sys
 from webdriver_manager.chrome import ChromeDriverManager
-
 from selenium.common.exceptions import TimeoutException, InvalidSessionIdException
 from selenium.webdriver.chrome.options import Options
-
-sys.path.append("..")
-from user_agent_list.userAgent import USER_AGENT_LIST
+from user_agent_list.userAgent import user_agent_list
 
 
-def getSeleniumPage(url, driver):
+def get_selenium_page(url, driver):
     try:
         driver.get(url)
     except TimeoutException as Timeout:
@@ -24,8 +20,8 @@ def getSeleniumPage(url, driver):
     return page
 
 
-def createDriverInstance():
-    user_agent = random.choice(USER_AGENT_LIST)
+def create_driver_instance():
+    user_agent = random.choice(user_agent_list)
     chrome_options = Options()
     chrome_options.add_argument('headless')
     chrome_options.add_argument("window-size=1024,768")

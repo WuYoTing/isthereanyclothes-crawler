@@ -1,22 +1,22 @@
-from getSeleniumPage import createDriverInstance
-from crawler.prodListGu import getGuProd
-from crawler.prodListUniqlo import getUniqloProd
-from mail.mailLog import maillog
+from get_selenium_page import create_driver_instance
+from crawler.prod_gu import get_gu_prod
+from crawler.prod_uniqlo import get_uniqlo_prod
+from mail.mail_log import mail_log
 from datetime import date
 import time
 
 
-def prodMainUniqloGu(dbUserName, dbPassword):
+def prod_main(db_user_name, db_password):
     today_date = str(date.today())
-    driver = createDriverInstance()
+    driver = create_driver_instance()
     # Gu
     gu_start_time = time.time()
-    getGuProd(driver, dbUserName, dbPassword)
+    get_gu_prod(driver, db_user_name, db_password)
     gu_end_time = time.time()
     gu_total_time = gu_end_time - gu_start_time
     # Uniqlo
     uniqlo_start_time = time.time()
-    getUniqloProd(driver, dbUserName, dbPassword)
+    get_uniqlo_prod(driver, db_user_name, db_password)
     uniqlo_end_time = time.time()
     uniqlo_total_time = uniqlo_end_time - uniqlo_start_time
     driver.close()
@@ -33,6 +33,4 @@ def prodMainUniqloGu(dbUserName, dbPassword):
     # email msg
     mail_msg = 'GU 爬蟲使用時間 : ' + gu_prod_info_total + ' 秒  ' \
                + 'uniqlo 爬蟲使用時間 : ' + str(uniqlo_prod_info_total) + ' 秒 '
-
-    maillog(today_date + ' 爬蟲完畢', mail_msg,
-            'hakosaki314@gmail.com')
+    mail_log(today_date + ' 爬蟲完畢', mail_msg, )

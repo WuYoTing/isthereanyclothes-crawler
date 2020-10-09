@@ -1,15 +1,17 @@
-from crawler.prodMainUniqloGu import prodMainUniqloGu
+from crawler.prod_main import prod_main
 import platform
 
-osName = platform.system();
-print('os system : ' + osName)
+os_name = platform.system()
+print('os system : ' + os_name)
 # database-info
-if osName == 'Linux':
-    databaseInfo = open("/isthereanyclothes/database-info.txt", "r")
-elif osName == 'Windows':
-    databaseInfo = open("E:\isthereanyclothes\database-info.txt", "r")
-dbInfoArr = databaseInfo.readlines()
-dbUserName = dbInfoArr[0].strip('\n')
-dbPassword = dbInfoArr[1].strip('\n')
-databaseInfo.close()
-prodMainUniqloGu(dbUserName, dbPassword)
+if os_name == 'Linux':
+    database_info = open("/isthereanyclothes/database-info.txt", "r")
+elif os_name == 'Windows':
+    database_info = open("D:\Python-workspace\database-info.txt", "r")
+else:
+    database_info = open("D:\database-info.txt", "r")
+db_info_arr = database_info.readlines()
+db_user_name = db_info_arr[0].strip('\n')
+db_password = db_info_arr[1].strip('\n')
+database_info.close()
+prod_main(db_user_name, db_password)

@@ -1,10 +1,9 @@
 sql_connector/sql_connector.py
 __pycache__/
-chromedriver.exe
-mail/mailLog.py
 build
 dist
 debug.log
+.idea
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
