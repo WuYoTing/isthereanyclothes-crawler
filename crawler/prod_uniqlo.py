@@ -7,7 +7,7 @@ from crawler.prod_Info_get import get_prod_info
 from user_agent_list.userAgent import user_agent_list
 
 
-def get_uniqlo_prod(driver, db_user_name, db_password):
+def get_uniqlo_prod(driver, db_host, db_name, db_user_name, db_password, mail_user, mail_password, recipient):
     user_agent = random.choice(user_agent_list)
     headers = {'user-agent': user_agent, "accept-language": "zh-TW,zh;q=0.9,en-US;q=0.8,en;q=0.7"}
     # 取男生所有產品
@@ -48,17 +48,17 @@ def get_uniqlo_prod(driver, db_user_name, db_password):
     for prod_url in man_prod_url_set.copy():
         print(str(len(man_prod_url_set)) + ' items left for man in uniqlo')
         try:
-            get_prod_info(prod_url, driver, 'uniqlo_clothes', db_user_name, db_password)
+            get_prod_info(prod_url, driver, 'uniqlo_clothes', db_host, db_name, db_user_name, db_password)
         except Exception as Ec:
-            exception_format(Ec, prod_url)
+            exception_format(mail_user, mail_password, recipient, Ec, prod_url)
         else:
             man_prod_url_set.remove(prod_url)
     # 取女生產品內容
     for prod_url in woman_prod_url_set.copy():
         print(str(len(woman_prod_url_set)) + ' items left for woman in uniqlo')
         try:
-            get_prod_info(prod_url, driver, 'uniqlo_clothes', db_user_name, db_password)
+            get_prod_info(prod_url, driver, 'uniqlo_clothes', db_host, db_name, db_user_name, db_password)
         except Exception as Ec:
-            exception_format(Ec, prod_url)
+            exception_format(mail_user, mail_password, recipient, Ec, prod_url)
         else:
             woman_prod_url_set.remove(prod_url)

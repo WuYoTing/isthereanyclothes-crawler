@@ -3,7 +3,7 @@ from sql_connector.sql_connector import sql_connector
 from get_selenium_page import get_selenium_page
 
 
-def get_prod_info(prod_url, driver, table_name, user_name, password):
+def get_prod_info(prod_url, driver, table_name, db_host, db_name, db_user_name, db_password):
     now = datetime.datetime.now()
     try:
         page = get_selenium_page(prod_url, driver)
@@ -67,6 +67,6 @@ def get_prod_info(prod_url, driver, table_name, user_name, password):
         sql_connector(prod_sex, prod_category, prod_name, int(prod_price), prod_number, prod_about, prod_material,
                       prod_url, prod_main_image_url, prod_size_url, prod_is_newgood, prod_is_onlineonly, prod_is_set,
                       prod_is_limitedtime, prod_is_pricedown, prod_can_modify, prod_limited_price_date, prod_get_time
-                      , table_name, user_name, password)
+                      , table_name, db_host, db_name, db_user_name, db_password)
     except Exception:
         raise

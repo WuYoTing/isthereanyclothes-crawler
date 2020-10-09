@@ -6,17 +6,17 @@ from datetime import date
 import time
 
 
-def prod_main(db_user_name, db_password):
+def prod_main(db_host, db_table, db_user_name, db_password, mail_user, mail_password, recipient):
     today_date = str(date.today())
     driver = create_driver_instance()
     # Gu
     gu_start_time = time.time()
-    get_gu_prod(driver, db_user_name, db_password)
+    get_gu_prod(driver, db_host, db_table, db_user_name, db_password, mail_user, mail_password, recipient)
     gu_end_time = time.time()
     gu_total_time = gu_end_time - gu_start_time
     # Uniqlo
     uniqlo_start_time = time.time()
-    get_uniqlo_prod(driver, db_user_name, db_password)
+    get_uniqlo_prod(driver, db_host, db_table, db_user_name, db_password, mail_user, mail_password, recipient)
     uniqlo_end_time = time.time()
     uniqlo_total_time = uniqlo_end_time - uniqlo_start_time
     driver.close()
@@ -33,4 +33,4 @@ def prod_main(db_user_name, db_password):
     # email msg
     mail_msg = 'GU 爬蟲使用時間 : ' + gu_prod_info_total + ' 秒  ' \
                + 'uniqlo 爬蟲使用時間 : ' + str(uniqlo_prod_info_total) + ' 秒 '
-    mail_log(today_date + ' 爬蟲完畢', mail_msg )
+    mail_log(mail_user, mail_password, recipient, today_date + ' 爬蟲完畢', mail_msg)
